@@ -1,22 +1,36 @@
 #!/bin/bash -x
 
 Head=1;
+maxwins=21;
 Headswin=0;
 Tailswin=0;
 
-for ((i=1;i<=100;i++))
+while [[ $Headswin -lt $maxwins && $Tailswin -lt $maxwins ]]
+
 do
 randomcheck=$((RANDOM%2));
 
-     if [ $randomcheck -eq $Head ]
-         then
-             Headswin=$(($Headswin+1));
-         else
-             Tailswin=$(($Tailswin+1));
-     fi
+    case $randomcheck in
+                  $Head)
+                  Headswin=$(($Headswin+1));
+                  ;;
+                  *)
+                  Tailswin=$(($Tailswin+1));
+                  ;;
+    esac
 
 done
 
-echo Number of times Heads win:$Headswin
-
-echo Number of times Tails win:$Tailswin
+if [ $Headswin -gt $Tailswin ]
+then
+    Heads=$(($Headswin-$Tailswin));
+    echo Heads Win
+    echo Heads win by $Heads more
+elif [ Tailswin -gt $Headswin ]
+then
+    Tails=$(($Tailswin-$Headswin));
+    echo Tails Win
+    echo Tails win by $Tails more
+else
+    echo Tie
+fi
