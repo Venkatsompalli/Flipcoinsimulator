@@ -1,13 +1,26 @@
 #!/bin/bash -x
-
 Head=1;
 maxwins=21;
 Headswin=0;
 Tailswin=0;
 
-while [[ $Headswin -lt $maxwins && $Tailswin -lt $maxwins ]]
+function tie () {
 
+if [ $Headswin -gt $Tailswin ]
+then
+    echo Heads win
+else
+    echo Tails win
+fi
+
+}
+
+
+function operation() {
+
+while [[ $Headswin -lt $maxwins && $Tailswin -lt $maxwins ]]
 do
+
 randomcheck=$((RANDOM%2));
 
     case $randomcheck in
@@ -18,19 +31,18 @@ randomcheck=$((RANDOM%2));
                   Tailswin=$(($Tailswin+1));
                   ;;
     esac
-
 done
+}
 
+
+operation
 if [ $Headswin -gt $Tailswin ]
 then
-    Heads=$(($Headswin-$Tailswin));
-    echo Heads Win
-    echo Heads win by $Heads more
-elif [ Tailswin -gt $Headswin ]
+    echo Heads win
+elif [ $Tailswin -gt $Headswin ]
 then
-    Tails=$(($Tailswin-$Headswin));
-    echo Tails Win
-    echo Tails win by $Tails more
+    echo Tails win
 else
-    echo Tie
+    operation
+    tie
 fi
